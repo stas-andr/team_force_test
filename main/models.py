@@ -25,8 +25,8 @@ class Profile(models.Model):
     class Meta:
         verbose_name = 'Профиль'
         verbose_name_plural = 'Профили'
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    hobby = models.ManyToManyField(Tag)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, verbose_name='Кандидат')
+    hobby = models.ManyToManyField(Tag, verbose_name='Навыки')
 
     def __str__(self):
         return f'{self.user.__str__()}'

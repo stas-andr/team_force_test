@@ -4,9 +4,10 @@ from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 from .forms import RegisterUserForm
-from .models import MyUser
+from .models import MyUser, Profile
 
 
 def index(request):
@@ -23,7 +24,14 @@ class CandidateLogoutView(LogoutView):
 
 @login_required
 def profile(request):
-    return render(request, 'main/profile.html')
+    profile = get_object_or_404(Profile, user=request.user.pk)
+    hobbies = {}
+    for hobby in profile.hobby.all():
+        if hobby.tag not in hobbies.keys():
+            hobbies[hobby.tag] = []
+        hobbies[hobby.tag].append(hobby.value)
+    context = {'hobbies': hobbies}
+    return render(request, 'main/profile.html', context=context)
 
 
 class RegisterUserView(CreateView):

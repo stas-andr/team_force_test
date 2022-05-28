@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserChangeForm
 from .models import MyUser, Profile, Tag
 
 
-class MyUserAdmin(admin.UserAdmin):
+class MyUserAdmin(UserAdmin):
     list_display = ('last_name', 'first_name', 'middle_name',
                     'username', 'email')
 

@@ -7,7 +7,7 @@
 {% if user.first_name and user.last_name %}
 <p>{{ user.last_name }} {{ user.first_name }} {% if user.middle_name %} {{ user.middle_name }} {% endif %}</p>
 {% endif %}
-<p>Скиллы: Python, Django, SQL, Async</p>
-<p>Языки: Английский, Китайский</p>
-<p>Увлечения: музыка</p>
+{% for tag, values in hobbies.items %}
+<p>{{ tag }}: {{ values }} </p>
+{% endfor %}
 {% endblock %}
