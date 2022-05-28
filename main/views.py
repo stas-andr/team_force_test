@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 from .forms import RegisterUserForm
 
@@ -14,6 +14,9 @@ def index(request):
 
 class CandidateLoginView(LoginView):
     template_name = 'main/login.html'
+
+class CandidateLogoutView(LogoutView):
+    template_name = 'main/logout.html'
 
 
 class RegisterUserView(CreateView):
