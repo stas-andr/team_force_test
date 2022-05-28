@@ -1,11 +1,14 @@
 from django.contrib import admin
-from .models import MyUser
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserChangeForm
+from .models import MyUser, Profile, Tag
 
 
-class MyUserAdmin(admin.ModelAdmin):
-    fields = ('last_name', 'first_name', 'middle_name',
-              'email', 'is_active')
+class MyUserAdmin(admin.UserAdmin):
+    list_display = ('last_name', 'first_name', 'middle_name',
+                    'username', 'email')
 
 
 admin.site.register(MyUser, MyUserAdmin)
+admin.site.register(Profile)
+admin.site.register(Tag)
