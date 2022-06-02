@@ -1,5 +1,7 @@
 {% extends "layout/basic.html" %}
 
+{% load bootstrap4 %}
+
 {% block title %}Профиль пользователя{% endblock %}
 
 {% block content %}
@@ -10,4 +12,12 @@
 {% for tag, values in hobbies.items %}
 <p>{{ tag }}: {{ values }} </p>
 {% endfor %}
+<ul class="col nav justify-content-end border">
+    <form method="post">
+        <table>
+            <td>Тэг</td>
+            <td>Значение</td>
+        </table>
+    </form>
+</ul>
 {% endblock %}

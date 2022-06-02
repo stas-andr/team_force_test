@@ -30,6 +30,9 @@ def profile(request):
         if hobby.tag not in hobbies.keys():
             hobbies[hobby.tag] = []
         hobbies[hobby.tag].append(hobby.value)
+
+    for tag in hobbies:
+        hobbies[tag] = ", ".join(hobbies[tag])
     context = {'hobbies': hobbies}
     return render(request, 'main/profile.html', context=context)
 
