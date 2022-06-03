@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
 from .forms import RegisterUserForm
+from .forms import AddHobbyForm
 from .models import MyUser, Profile
 
 
@@ -26,6 +27,7 @@ class CandidateLogoutView(LogoutView):
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user.pk)
     hobbies = {}
+    form = AddHobbyForm()
     for hobby in profile.hobby.all():
         if hobby.tag not in hobbies.keys():
             hobbies[hobby.tag] = []
@@ -33,7 +35,7 @@ def profile(request):
 
     for tag in hobbies:
         hobbies[tag] = ", ".join(hobbies[tag])
-    context = {'hobbies': hobbies}
+    context = {'hobbies': hobbies, 'form': form}
     return render(request, 'main/profile.html', context=context)
 
 

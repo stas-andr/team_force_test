@@ -12,12 +12,12 @@
 {% for tag, values in hobbies.items %}
 <p>{{ tag }}: {{ values }} </p>
 {% endfor %}
-<ul class="col nav justify-content-end border">
+<nav class="col-md-auto nav flex-column border">
     <form method="post">
-        <table>
-            <td>Тэг</td>
-            <td>Значение</td>
-        </table>
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        {% buttons submit='Добавить' %}{% endbuttons %}
     </form>
-</ul>
+</nav>
+</nav>
 {% endblock %}

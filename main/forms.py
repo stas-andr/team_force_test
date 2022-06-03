@@ -3,6 +3,7 @@ from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
 from .models import MyUser
+from .models import Tag
 
 class RegisterUserForm(forms.ModelForm):
     email = forms.EmailField(required=True,
@@ -42,3 +43,9 @@ class RegisterUserForm(forms.ModelForm):
         model = MyUser
         fields = ('username', 'email', 'last_name', 'first_name', 'middle_name',
                   'password1', 'password2')
+
+
+class AddHobbyForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = '__all__'
