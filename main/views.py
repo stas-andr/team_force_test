@@ -5,10 +5,11 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 from .forms import RegisterUserForm
 from .forms import AddHobbyForm
-from .models import MyUser, Profile
+from .models import MyUser, Profile, Tag
 
 
 def index(request):
@@ -35,6 +36,18 @@ def profile(request):
 
     for tag in hobbies:
         hobbies[tag] = ", ".join(hobbies[tag])
+    if request.method == 'POST':
+        h_form = AddHobbyForm(request.POST)
+        if h_form.is_valid():
+            h_form.save()
+            tag_from_form = h_form.cleaned_data.get("tag")
+            value_from_form = h_form.cleaned_data.get("value")
+            hobby = Tag.objects.create(tag=tag_from_form, value=value_from_form)
+            Profile.objects.create(Profile=profile, hobby=hobby)
+            messages.add_message(request, messages.SUCCESS, 'Навык добавлен')
+        else:
+            form = h_form
+            messages.add_message(request, messages.WARNING, 'Навык не добавлен')
     context = {'hobbies': hobbies, 'form': form}
     return render(request, 'main/profile.html', context=context)
 
