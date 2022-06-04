@@ -28,27 +28,25 @@ class CandidateLogoutView(LogoutView):
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user.pk)
     hobbies = {}
-    form = AddHobbyForm()
-    for hobby in profile.hobby.all():
+    for hobby in profile.hobbies.all():
         if hobby.tag not in hobbies.keys():
             hobbies[hobby.tag] = []
         hobbies[hobby.tag].append(hobby.value)
-
     for tag in hobbies:
         hobbies[tag] = ", ".join(hobbies[tag])
     if request.method == 'POST':
-        h_form = AddHobbyForm(request.POST)
-        if h_form.is_valid():
-            h_form.save()
-            tag_from_form = h_form.cleaned_data.get("tag")
-            value_from_form = h_form.cleaned_data.get("value")
-            hobby = Tag.objects.create(tag=tag_from_form, value=value_from_form)
-            Profile.objects.create(Profile=profile, hobby=hobby)
+        hobby_form = AddHobbyForm(request.POST)
+        if hobby_form.is_valid():
+            hobby = hobby_form.save()
+            profile.hobbies.add(hobby)
             messages.add_message(request, messages.SUCCESS, 'Навык добавлен')
+            hobby_form = AddHobbyForm()
         else:
-            form = h_form
+            form = hobby_form
             messages.add_message(request, messages.WARNING, 'Навык не добавлен')
-    context = {'hobbies': hobbies, 'form': form}
+    else:
+        hobby_form = AddHobbyForm()
+    context = {'hobbies': hobbies, 'form': hobby_form}
     return render(request, 'main/profile.html', context=context)
 
 
