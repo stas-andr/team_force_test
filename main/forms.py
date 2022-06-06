@@ -1,3 +1,4 @@
+import floppyforms
 from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
@@ -46,7 +47,10 @@ class RegisterUserForm(forms.ModelForm):
 
 
 class AddHobbyForm(forms.ModelForm):
-    tag = forms.MultipleChoiceField(choices=Tag.objects.all())
+    tag = forms.CharField(label='Категория навыка', widget=floppyforms.widgets.Input(datalist=Tag.objects.values_list("tag", flat=True).distinct()))
+    value = forms.CharField(label='Навык', widget=floppyforms.widgets.Input(datalist=[]))
+
     class Meta:
         model = Tag
         fields = '__all__'
+    

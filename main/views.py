@@ -37,7 +37,6 @@ def profile(request):
         if hobby_form.is_valid():
             hobby = hobby_form.save()
             profile.hobbies.add(hobby)
-            hobbies[hobby.tag].append(hobby.value)
             messages.add_message(request, messages.SUCCESS, 'Навык добавлен')
             return redirect('main:profile')
         else:
