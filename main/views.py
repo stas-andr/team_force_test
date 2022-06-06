@@ -13,6 +13,17 @@ from .models import MyUser, Profile, Tag
 
 
 def index(request):
+    prof_context = {}
+    profiles = Profile.objects.all()
+    for profile in profiles:
+        hobbies = {}
+        for hobby in profile.hobbies.all():
+            if hobby.tag not in hobbies.keys():
+                hobbies[hobby.tag] = []
+            hobbies[hobby.tag].append(hobby.value)
+        for tag in hobbies:
+            hobbies[tag] = ", ".join(hobbies[tag])
+        "\n".join(hobbies) # TODO
     return render(request, 'main/index.html')
 
 

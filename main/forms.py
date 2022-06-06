@@ -48,7 +48,7 @@ class RegisterUserForm(forms.ModelForm):
 
 class AddHobbyForm(forms.ModelForm):
     tag = forms.CharField(label='Категория навыка', widget=floppyforms.widgets.Input(datalist=Tag.objects.values_list("tag", flat=True).distinct()))
-    value = forms.CharField(label='Навык', widget=floppyforms.widgets.Input(datalist=[]))
+    value = forms.CharField(label='Навык', widget=floppyforms.widgets.Input(datalist=Tag.objects.values_list("value", flat=True).distinct()))
 
     class Meta:
         model = Tag
