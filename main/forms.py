@@ -46,6 +46,7 @@ class RegisterUserForm(forms.ModelForm):
 
 
 class AddHobbyForm(forms.ModelForm):
+    tag = forms.MultipleChoiceField(choices=Tag.objects.all())
     class Meta:
         model = Tag
         fields = '__all__'

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
 from django.urls import reverse_lazy
@@ -32,20 +32,20 @@ def profile(request):
         if hobby.tag not in hobbies.keys():
             hobbies[hobby.tag] = []
         hobbies[hobby.tag].append(hobby.value)
-    for tag in hobbies:
-        hobbies[tag] = ", ".join(hobbies[tag])
     if request.method == 'POST':
         hobby_form = AddHobbyForm(request.POST)
         if hobby_form.is_valid():
             hobby = hobby_form.save()
             profile.hobbies.add(hobby)
+            hobbies[hobby.tag].append(hobby.value)
             messages.add_message(request, messages.SUCCESS, 'Навык добавлен')
-            hobby_form = AddHobbyForm()
+            return redirect('main:profile')
         else:
-            form = hobby_form
             messages.add_message(request, messages.WARNING, 'Навык не добавлен')
     else:
         hobby_form = AddHobbyForm()
+    for tag in hobbies:
+        hobbies[tag] = ", ".join(hobbies[tag])
     context = {'hobbies': hobbies, 'form': hobby_form}
     return render(request, 'main/profile.html', context=context)
 
